@@ -144,42 +144,65 @@ class _HomePageState extends State<HomePage> {
 
               ElevatedButton.icon(
                   onPressed: () async{
-                    Map<String, String> map = {
-                    "\n\ts/n" : numberController.text,
-                    "\n\tsubject" :subjectController.text,
-                    "\n\ttitle" : titleController.text,
-                    "\n\tlevel" : levelController.text,
-                    "\n\ttype" : typeController.text,
-                    "\n\tpubisher" : publisherController.text,
-                    "\n\tisbn" : isbnController.text,
-                    "\n\tauthor": authorController.text
-                    };
+                    if (
+                    (
+                    numberController.text.isNotEmpty &&
+                    subjectController.text.isNotEmpty &&
+                    titleController.text.isNotEmpty &&
+                    levelController.text.isNotEmpty &&
+                    typeController.text.isNotEmpty &&
+                    publisherController.text.isNotEmpty &&
+                    isbnController.text.isNotEmpty &&
+                    authorController.text.isNotEmpty
+                    )) {
+                      Map<String, String> map = {
+                        "\n\ts/n": numberController.text,
+                        "\n\tsubject": subjectController.text,
+                        "\n\ttitle": titleController.text,
+                        "\n\tlevel": levelController.text,
+                        "\n\ttype": typeController.text,
+                        "\n\tpublisher": publisherController.text,
+                        "\n\tisbn": isbnController.text,
+                        "\n\tauthor": authorController.text
+                      };
 
 
-                    Map<String, dynamic> finalMap = {
-                      map["s/n"] : map
-                    };
+                      Map<String, dynamic> finalMap = {
+                        map["s/n"]: map
+                      };
 
 
+                      File file = new File(
+                          "F:\\Projects\\Ghana registered books.json");
 
-                    File file = new File("F:\\Projects\\Ghana registered books.txt");
+                      file.writeAsString(
+                          "\n${finalMap.toString()}", mode: FileMode.append);
+                      // file.create();
 
-                    file.writeAsString("\n${finalMap.toString()}", mode: FileMode.append);
-                    // file.create();
-
-                    setState(() {
-                      bookCount++;
-                    });
+                      setState(() {
+                        bookCount++;
+                      });
 
 
-                    numberController.clear();
-                     subjectController.clear();
-                     titleController.clear();
-                     levelController.clear();
-                     typeController.clear();
-                     publisherController.clear();
-                     isbnController.clear();
-                    authorController.clear();
+                      numberController.clear();
+                      subjectController.clear();
+                      titleController.clear();
+                      levelController.clear();
+                      typeController.clear();
+                      publisherController.clear();
+                      isbnController.clear();
+                      authorController.clear();
+                    } else {
+                      showDialog(context: context,
+                          builder: (context) {
+                        return AlertDialog(
+                          title: Text("Error"),
+                          content: Container(
+                            child: Text("None of the fields can be empty. Please check and try again"),
+                          ),
+                        );
+                      });
+                    }
                     },
                   icon: Icon(Icons.save),
                   label: Text("Save entry")
